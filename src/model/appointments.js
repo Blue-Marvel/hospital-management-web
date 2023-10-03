@@ -15,6 +15,14 @@ const appointmentSchema = new mongoose.Schema({
   patient_id: patient_id,
   appointment_date: {
     type: Date,
-    default: Date.now(),
+    required: [true, "enter date in yyyy-mm-dd "],
+  },
+  timestamps: true,
+  appointment_status: {
+    type: String,
+    enum: ["approved", "declined", "pending"],
+    default: "pending",
   },
 });
+
+module.exports = appointmentSchema;

@@ -49,10 +49,6 @@ const userSchema = new mongoose.Schema({
     required: [true, "Please provide password"],
     minlength: 6,
   },
-  appointment_date: {
-    type: Date,
-    required: [true, "enter date "],
-  },
 });
 
 userSchema.pre("save", async function () {
