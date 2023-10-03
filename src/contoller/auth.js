@@ -11,6 +11,7 @@ const register = async (req, res) => {
       firstName: user.First_Name,
       lastName: user.Last_Name,
       email: user.Email,
+
     },
     token,
   });
@@ -34,7 +35,7 @@ const login = async (req, res) => {
   res.status(StatusCodes.OK).json({
     user: {
       firstName: user.First_Name,
-      lastName: user.lastName,
+      lastName: user.Last_Name,
       email: user.Email,
     },
     token,

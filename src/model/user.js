@@ -1,6 +1,6 @@
 const { string } = require("joi");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
@@ -48,6 +48,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"],
     minlength: 6,
+  },
+  appointment_date: {
+    type: Date,
+    required: [true, "enter date "],
   },
 });
 
