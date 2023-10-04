@@ -17,3 +17,5 @@ router
   .delete(deleteAppointment);
 
 module.exports = router;
+
+// {gobal_key}/appointment/userid get
