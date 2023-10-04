@@ -1,5 +1,6 @@
 require("dotenv").config();
 require("express-async-errors");
+const cors = require("cors");
 const express = require("express");
 const app = express();
 const authRoute = require("./src/Routes/auth");
@@ -8,6 +9,7 @@ const connectDB = require("./src/db/connect");
 const notFoundMiddleware = require("./src/middleware/not-found");
 const errorHandlerMiddleware = require("./src/middleware/error-handler");
 
+app.use(cors());
 app.use(express.json());
 
 //route
@@ -18,7 +20,7 @@ app.use("/api/v1/appointment", appointmentRoute);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-port = process.env.PORT || 3001;
+port = process.env.PORT || 8000;
 const start = async () => {
   try {
     await connectDB(process.env.MONGO_URI);
@@ -26,5 +28,5 @@ const start = async () => {
   } catch (error) {
     console.log(error);
   }
-};
+};  
 start();

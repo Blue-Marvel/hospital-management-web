@@ -11,7 +11,7 @@ const register = async (req, res) => {
       firstName: user.First_Name,
       lastName: user.Last_Name,
       email: user.Email,
-
+      role: user.Role,
     },
     token,
   });
