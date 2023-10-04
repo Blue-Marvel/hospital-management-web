@@ -1,7 +1,8 @@
 const User = require("../model/user");
 const { UnauthenticatedError, BadRequestError } = require("../errors");
 const { StatusCodes } = require("http-status-codes");
-const jwt = require("jsonwebtoken");
+
+// const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   const user = await User.create({ ...req.body });
@@ -12,6 +13,7 @@ const register = async (req, res) => {
       lastName: user.Last_Name,
       email: user.Email,
       role: user.Role,
+      // userId: user.patient_id,
     },
     token,
   });
@@ -37,9 +39,46 @@ const login = async (req, res) => {
       firstName: user.First_Name,
       lastName: user.Last_Name,
       email: user.Email,
+      userId: user._id,
     },
     token,
   });
 };
 
-module.exports = { login, register };
+const logout = (req, res) => {
+  //check if session exists
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        logger.error("error destroying session", err);
+        res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "logout failed" });
+      }
+
+      //test with postman
+      //  else {
+      //   // res.status(StatusCodes.OK).json({ msg: "logout successful" });
+      //   const response = {
+      //     msg: "logout successful",
+      //     redirect: "/login",
+      //   };
+      //   res.json({ response });
+      // }
+    });
+  } else {
+    //delete if it does not work
+    // res.status(StatusCodes.OK).json({ msg: "logout successful" });
+    const response = {
+      msg: "logout successful",
+      redirect: "/login",
+    };
+    res.json({ response });
+  }
+
+  // else {
+  //   res.status(StatusCodes.OK).json({ msg: "logout successful" });
+  // }
+};
+
+module.exports = { login, register, logout };
