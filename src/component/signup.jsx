@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -9,18 +10,51 @@ import { MdLockOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
 
 const SignupPage = () => {
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const toHomePage = () => {
+
+  const navigate = useNavigate();
+
+  const toHomePage = async () => {
     const signupMap = {
-      "full-name": fullName,
-      "role": role,
-      "email": email,
-      "password": password,
+      password: password,
+      Role: role,
+      Phone: phone,
+      Email: email,
+      Last_Name: lastName,
+      First_Name:firstName,
     };
     console.log(signupMap);
+
+      try {
+        const response = await fetch(
+          "http://localhost:8000/api/v1/auth/register",
+          {
+            method: "POST",
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+            body: JSON.stringify(signupMap),
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        navigate("/");
+
+      } catch (err) {
+        console.error(err);
+      }
+
   };
 
   return (
@@ -60,11 +94,31 @@ const SignupPage = () => {
               <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
                 <input
                   type="text"
-                  name="full-name"
-                  placeholder="Full Name"
+                  name="first-name"
+                  placeholder="First Name"
                   className=" bg-gray-100 flex-1 outline-none text-sm"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+              </div>
+              <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
+                <input
+                  type="text"
+                  name="last-name"
+                  placeholder="Last Name"
+                  className=" bg-gray-100 flex-1 outline-none text-sm"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </div>
+              <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
+                <input
+                  type="text"
+                  name="last-name"
+                  placeholder="Phone"
+                  className=" bg-gray-100 flex-1 outline-none text-sm"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
               <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">

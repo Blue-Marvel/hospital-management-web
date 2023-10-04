@@ -7,22 +7,58 @@ import {
 } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { SIGN_IN_USER } from "../config";
+import { useNavigate } from "react-router-dom";
+import {TailSpin} from 'react-loader-spinner';
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  function loginUser() {
+  const navigate = useNavigate();
+
+  async function loginUser() {
+    setIsLoading(true);
     const loginMap = {
-      "email": email,
+      "Email": email,
       "password": password,
     };
     console.log(loginMap);
+
+    try {
+      const response = await fetch(SIGN_IN_USER, {
+        method: "POST",
+        body: JSON.stringify(loginMap),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      navigate("/dashboard", {state: responseData});
+
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false);
+    }
+
   }
 
-  return (
+  return isLoading ? (<div >
+  <TailSpin height={100} width={100} />
+  </div>):(
+     
     <div className="bg-white rounded-2xl shadow-2xl flex w-2/3 max-w-4xl">
-      <div className="w-3/5 p-5">
+
+        <div className="w-3/5 p-5">
         <div className=" text-left font-bold">
           <span className=" text-green-500">Company</span>Name
         </div>
@@ -106,8 +142,9 @@ function LoginPage() {
           Sign Up
         </Link>
       </div>
-    </div>
-  );
-}
+        </div>
+      )
+    }
+      
 
 export default LoginPage;
