@@ -7,12 +7,13 @@ const appointmentRoute = require("./src/Routes/appointments");
 const connectDB = require("./src/db/connect");
 const notFoundMiddleware = require("./src/middleware/not-found");
 const errorHandlerMiddleware = require("./src/middleware/error-handler");
+const authenticationMiddleware = require("./src/middleware/Authentication");
 
 app.use(express.json());
 
 //route
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/appointment", appointmentRoute);
+app.use("/api/v1/appointment", authenticationMiddleware, appointmentRoute);
 
 //middlewares
 app.use(notFoundMiddleware);
