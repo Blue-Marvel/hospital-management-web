@@ -1,5 +1,9 @@
 const User = require("../model/user");
-const { UnauthenticatedError, BadRequestError } = require("../errors");
+const {
+  UnauthenticatedError,
+  BadRequestError,
+  NotFoundError,
+} = require("../errors");
 const { StatusCodes } = require("http-status-codes");
 
 // const jwt = require("jsonwebtoken");
@@ -81,4 +85,20 @@ const logout = (req, res) => {
   // }
 };
 
-module.exports = { login, register, logout };
+const getDoctors = async (req, res) => {
+  const user = await User.find({ Role: "doctor" })
+    .select("First_Name Last_Name Email _id")
+    .sort("Last_Name");
+
+  if (!user || user.length === 0) {
+    throw new NotFoundError("sorry no doctors available ");
+  }
+  // const { doctor_id: _id } = res;
+  res.status(StatusCodes.OK).json({
+    doctors: { user },
+    n0_of_doctors: user.length,
+    userId: user._id,
+  });
+};
+
+module.exports = { login, register, logout, getDoctors };

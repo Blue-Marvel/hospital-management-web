@@ -10,8 +10,8 @@ const appointmentSchema = new mongoose.Schema(
       required: [true, "please provide appointment id "],
     },
     doctor_id: {
-      type: Number,
-      maxLength: 10,
+      type: String,
+      // maxLength: 10,
     },
     patient_id: {
       type: String,
