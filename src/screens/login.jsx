@@ -7,7 +7,7 @@ import {
 } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { SIGN_IN_USER } from "../config";
+import { GET_ALL_DOCTORS, SIGN_IN_USER } from "../config";
 import { useNavigate } from "react-router-dom";
 import {TailSpin} from 'react-loader-spinner';
 
@@ -26,6 +26,8 @@ function LoginPage() {
     };
     console.log(loginMap);
 
+
+
     try {
       const response = await fetch(SIGN_IN_USER, {
         method: "POST",
@@ -40,9 +42,25 @@ function LoginPage() {
       }
 
       const responseData = await response.json();
-      console.log(responseData);
+      console.log(responseData.user.role);
 
-      navigate("/dashboard", {state: responseData});
+     
+        const response2 = await fetch(
+          GET_ALL_DOCTORS,
+          {
+            method: "GET",
+           
+          }
+
+          
+        )
+         if (!response2.ok) {
+           throw new Error(`HTTP error! Status: ${response.status}`);
+         }
+           const doctorData = await response2.json();
+      console.log(doctorData);
+     
+      navigate("/dashboard", {state: {responseData, doctorData}});
 
     } catch (error) {
       console.log(error)

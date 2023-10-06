@@ -26,35 +26,33 @@ const SignupPage = () => {
       Phone: phone,
       Email: email,
       Last_Name: lastName,
-      First_Name:firstName,
+      First_Name: firstName,
     };
     console.log(signupMap);
 
-      try {
-        const response = await fetch(
-          "http://localhost:8000/api/v1/auth/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-type": "application/json; charset=UTF-8",
-            },
-            body: JSON.stringify(signupMap),
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+    try {
+      const response = await fetch(
+        "http://localhost:8000/api/v1/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(signupMap),
         }
+      );
 
-        const data = await response.json();
-        console.log(data);
-
-        navigate("/");
-
-      } catch (err) {
-        console.error(err);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      const data = await response.json();
+      console.log(data);
+
+      navigate("/");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -114,25 +112,25 @@ const SignupPage = () => {
               <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
                 <input
                   type="text"
-                  name="last-name"
+                  name="phone"
                   placeholder="Phone"
                   className=" bg-gray-100 flex-1 outline-none text-sm"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                 />
               </div>
+
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className=" bg-gray-100 w-64 p-2 flex items-center mb-3"
+              >
+                <option value=""> Select Role</option>
+                <option value="doctor"> Doctor</option>
+                <option value="patient"> Patient</option>
+              </select>
               <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
-                <input
-                  type="text"
-                  name="role"
-                  placeholder="Role"
-                  className=" bg-gray-100 flex-1 outline-none text-sm"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                />
-              </div>
-              <div className=" bg-gray-100 w-64 p-2 flex items-center mb-3">
-                <FaRegEnvelope className="  text-gray-400 m-2 " />
+                <FaRegEnvelope className=" text-gray-400 m-2 " />
                 <input
                   type="email"
                   name="email"
