@@ -5,7 +5,7 @@ const { patient_id } = require("./user");
 const appointmentSchema = new mongoose.Schema(
   {
     appointment_id: {
-      type: Number,
+      type: String,
       maxLength: 10,
       required: [true, "please provide appointment id "],
     },
