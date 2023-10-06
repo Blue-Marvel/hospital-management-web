@@ -77,6 +77,28 @@ function PatientDashboard({ data, doctors }) {
       if (!response.ok) {
         alert(`HTTP error! Status: ${response.status}`);
       }
+
+      setIsLoading(true);
+      try {
+        const response = await fetch(GET_APPOINTMENT, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+            Authorization: `Bearer ${data.token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const responseData = await response.json();
+        setAppoitmentList(responseData.appointment);
+      } catch (error) {
+        console.error(`An error occurred: ${error}`);
+      } finally {
+        setIsLoading(false);
+      }
       const responseData = await response.json();
     } catch (err) {
       alert(`An error occured: ${err}`);
