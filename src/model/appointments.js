@@ -4,10 +4,10 @@ const { patient_id } = require("./user");
 
 const appointmentSchema = new mongoose.Schema(
   {
-    appointment_id: {
+    doctor_name: {
       type: String,
-      maxLength: 10,
-      required: [true, "please provide appointment id "],
+      // maxLength: 10,
+      required: [true, "please provide doctors name  "],
     },
     patient_id: {
       type: String,
@@ -22,6 +22,7 @@ const appointmentSchema = new mongoose.Schema(
     },
     appointment_status: {
       type: String,
+      required: true,
       enum: ["approved", "declined", "pending"],
       default: "pending",
     },

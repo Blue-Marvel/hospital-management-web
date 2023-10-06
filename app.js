@@ -15,7 +15,7 @@ app.use(express.json());
 
 //route
 app.use("/api/v1/auth", authRoute);
-app.use("/api/v1/appointment", authenticationMiddleware, appointmentRoute);
+app.use("/api/v1/appointment", appointmentRoute);
 
 //middlewares
 app.use(notFoundMiddleware);

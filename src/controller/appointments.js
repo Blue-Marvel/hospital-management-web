@@ -47,13 +47,40 @@ const updateAppointment = async (req, res) => {
   //     req.body
   //   );
   const {
-    body: { appointment_date, appointment_id },
+    body: { appointment_date, appointment_id, appointment_status },
     // user: { userId },
     params: { id: appointmentId },
   } = req;
 
-  if (appointment_date === "" || appointment_id === "") {
+  if (
+    appointment_date === "" ||
+    appointment_id === "" ||
+    appointment_status === ""
+  ) {
     throw new BadRequestError("appointment fields cannot be empty");
+  }
+  const appointment = await Appointments.findByIdAndUpdate(
+    { _id: appointmentId },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!appointment) {
+    throw new NotFoundError(`No appointment with id ${appointment_id}`);
+  }
+
+  res.status(StatusCodes.OK).json({ appointment });
+};
+const updateAppointmentStatus = async (req, res) => {
+  const {
+    body: { appointment_status },
+    params: { id: appointmentId },
+  } = req;
+
+  if (appointment_status === "") {
+    throw new BadRequestError("appointment status field cannot be empty");
   }
   const appointment = await Appointments.findByIdAndUpdate(
     { _id: appointmentId },
@@ -86,7 +113,7 @@ const deleteAppointment = async (req, res) => {
   });
 
   if (!appointment) {
-    throw new NotFoundError(`No appointment with id ${appointment_id}`);
+    throw new NotFoundError(`No appointment with id ${appointmentId}`);
   }
 
   res
@@ -100,6 +127,5 @@ module.exports = {
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  updateAppointmentStatus,
 };
-
-

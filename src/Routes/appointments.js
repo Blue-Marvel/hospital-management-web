@@ -7,13 +7,14 @@ const {
   createAppointment,
   updateAppointment,
   deleteAppointment,
+  updateAppointmentStatus,
 } = require("../controller/appointments");
 
 router.route("/").get(getAllAppointments).post(createAppointment);
 router
   .route("/:id")
   .get(getSingleAppointment)
-  .patch(updateAppointment)
+  .patch(updateAppointment, updateAppointmentStatus)
   .delete(deleteAppointment);
 
 module.exports = router;

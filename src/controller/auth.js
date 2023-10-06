@@ -44,6 +44,7 @@ const login = async (req, res) => {
       lastName: user.Last_Name,
       email: user.Email,
       userId: user._id,
+      role: user.Role,
     },
     token,
   });
