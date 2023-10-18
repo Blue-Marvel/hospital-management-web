@@ -4,10 +4,8 @@ const { NotFoundError, BadRequestError } = require("../errors");
 
 const getAllAppointments = async (req, res) => {
   const appointment = await Appointments.find({});
-  res
-    .status(StatusCodes.OK)
-    .json({ appointment, count: appointment.length })
-    .sort("createdAt");
+  res.status(StatusCodes.OK).json({ appointment, count: appointment.length });
+  // .sort("createdAt");
 };
 
 const getSingleAppointment = async (req, res) => {
@@ -26,7 +24,7 @@ const getSingleAppointment = async (req, res) => {
 
   if (!appointment) {
     throw new NotFoundError(
-      `appointment with id:${appointment_id} does not exist `
+      `appointment with id:${appointmentId} does not exist `
     );
   }
 
