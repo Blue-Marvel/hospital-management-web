@@ -19,4 +19,21 @@
   - [request .env file details from collaborator](#)
   - [npm start](#npm-start)
   - [This will load in the browser with port 8000](#)
+ 
+  ## postman setup
+  -[ setting token dynamically on postman  ]
+  -[under login & reg route]
+
+-[under test] 
+-[copy and paste 
+//accessing the response 
+const jsonData = pm.response.json()
+//token value/global var
+pm.globals.set("accessToken",jsonData.token )
+]
+
+
+
+-[then on any request go to "Authorization">>type>>select "bearer token ">>under token set global var to {{accessToken}}]
+
 
